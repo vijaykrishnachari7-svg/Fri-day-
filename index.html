@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FRIDAY - Created by HK_STUDIES</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{margin:0;font-family:Arial;background:#050810;color:white}
+header{text-align:center;padding:20px;background:linear-gradient(90deg,#00e5ff,#7b2ff7)}
+header h1{margin:0;font-size:32px;letter-spacing:4px}
+header p{margin:5px;opacity:0.9;font-size:13px}
+.container{display:flex;height:calc(100vh - 110px)}
+.left{width:40%;padding:15px;display:flex;flex-direction:column}
+.right{width:60%;background:white}
+textarea{width:100%;height:100px;border-radius:10px;padding:10px;font-size:15px}
+button{background:#00e5ff;border:none;padding:12px;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:10px;font-size:16px}
+#output{margin-top:10px;font-size:14px;opacity:0.8}
+iframe{width:100%;height:100%;border:none}
+@media(max-width:700px){.container{flex-direction:column}.left,.right{width:100%;height:50%}}
+</style>
+</head>
+<body>
+<header>
+<h1>F.R.I.D.A.Y</h1>
+<p>Created by HK_STUDIES</p>
+</header>
+<div class="container">
+<div class="left">
+<h3>What app do you want FRIDAY to build? 👇</h3>
+<textarea id="prompt" placeholder="Ex: Make me a food delivery website with menu, cart..."></textarea>
+<button onclick="generate()">✨ BUILD WITH FRIDAY</button>
+<div id="output">FRIDAY is ready sir...</div>
+</div>
+<div class="right">
+<iframe id="preview"></iframe>
+</div>
+</div>
+<script>
+async function generate(){
+let prompt=document.getElementById('prompt').value;
+if(!prompt) return alert('Please type what app you want');
+document.getElementById('output').innerText='FRIDAY is building your app... Please wait 10 sec...';
+let res=await fetch('/.netlify/functions/generate',{method:'POST',body:JSON.stringify({prompt})});
+let data=await res.json();
+let code=data.code || data.error;
+document.getElementById('preview').srcdoc=code;
+document.getElementById('output').innerText='Done! Your app is ready below. Created by HK_STUDIES';
+}
+</script>
+</body>
+</html>
